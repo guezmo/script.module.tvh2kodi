@@ -18,7 +18,7 @@
 #  along with LibreELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import os, xbmc, xbmcaddon, xbmcgui
+import os, xbmc, xbmcaddon, xbmcgui, xbmcvfs
 import json, urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse, subprocess, time, zipfile
 import shutil, datetime, sys
 from urllib.parse import urlparse
@@ -28,13 +28,15 @@ addon       = xbmcaddon.Addon(id='script.module.tvh2kodi')
 addonname   = addon.getAddonInfo('name')
 addonfolder = addon.getAddonInfo('path')
 addonicon   = os.path.join(addonfolder, 'resources/icon.png')
-addondata   = xbmc.translatePath(addon.getAddonInfo('profile'))
+addondata   = xbmcvfs.translatePath(addon.getAddonInfo('profile'))
 logfile     = os.path.join(addondata, 'data/')
 tempfolder  = os.path.join(addondata, 'temp/')
-picons_dest = xbmc.translatePath(xbmcaddon.Addon().getSetting('pdest'))
+picons_dest = xbmcvfs.translatePath(xbmcaddon.Addon().getSetting('pdest'))
 pdest       = os.path.join(picons_dest)
-url_latest = 'http://cvh.libreelec.tv/picons/latest2.json'
-latest_json = urllib.request.urlopen(url_latest)
+#url_latest = 'http://cvh.libreelec.tv/picons/latest2.json'
+url_latest = None # TODO:  Not sure if we can use this but above url does not work, so for now None
+#latest_json = urllib.request.urlopen(url_latest)
+latest_json = None  # TODO Because of bad url making this None, but maybe need to update
 log_json    = os.path.join(addondata, 'data/log.json')
 log3rdparty = os.path.join(addondata, 'data/3rdparty.log')
 logfile     = os.path.join(addondata, 'data')
@@ -44,7 +46,7 @@ exturl      = addon.getSetting('purl')
 dialog      = xbmcgui.Dialog()
 header      = 'Picons Downloader'
 dp          = xbmcgui.DialogProgress()
-pathpicons  = xbmc.translatePath(xbmcaddon.Addon().getSetting('pdest'))
+pathpicons  = xbmcvfs.translatePath(xbmcaddon.Addon().getSetting('pdest'))
 exturl      = xbmcaddon.Addon().getSetting('purl')
 now         = datetime.datetime.now()
 date        = '%s-%s-%s' % (now.year,now.month,now.day)

@@ -2460,7 +2460,7 @@ def start_scan(net_uuid_sel):
         stream_freq_list = []
         stream_freq_list = [x.get('stream') for x in update_stream['entries']]
         stream_freq = '  &  '.join(str(s) for s in stream_freq_list)
-        pDialog.update(int(update_scan_perc), "Scanning: " + str(stream_freq), "New services found: " + str(update_serv_num))
+        pDialog.update(int(update_scan_perc), "Scanning: " + str(stream_freq) + " New services found: " + str(update_serv_num))
         time.sleep(1)
         if (pDialog.iscanceled()):
             mux_list_str = str(mux_list)
@@ -2472,7 +2472,7 @@ def start_scan(net_uuid_sel):
             return
     pDialog.close()
     if update_serv_num == 0:
-        dialog.ok('Scanning complete.', "New services found: " + str(update_serv_num), "There are no new services to map to channels.")
+        dialog.ok('Scanning complete.', "New services found: " + str(update_serv_num) + " There are no new services to map to channels.")
         return
     goto_map = dialog.yesno('Scanning complete.', "New services found: " + str(update_serv_num), "Would you like to continue and map new services to channels?")
     if not goto_map:
@@ -2916,7 +2916,7 @@ def tvh():
         dialog.ok("Tvheadend Userdata Backup", "The Tvheadend service will be stopped to start the backup.", "The Tvheadend client may show a connection error during the process.")
         if tvh_url == "127.0.0.1":
             tvh_addon = xbmcaddon.Addon(id='service.tvheadend42')
-            tvh_userdata_path = xbmc.translatePath(tvh_addon.getAddonInfo('profile'))
+            tvh_userdata_path = xbmcvfs.translatePath(tvh_addon.getAddonInfo('profile'))
         else:
             tvh_userdata_path = '//' + tvh_url + '/userdata/addon_data/service.tvheadend42/'
         try:
@@ -2952,7 +2952,7 @@ def tvh():
         if tvh_stop == "OK":
             if tvh_url == "127.0.0.1":
                 tvh_addon = xbmcaddon.Addon(id='service.tvheadend42')
-                tvh_userdata_path = xbmc.translatePath(tvh_addon.getAddonInfo('profile'))
+                tvh_userdata_path = xbmcvfs.translatePath(tvh_addon.getAddonInfo('profile'))
             else:
                 tvh_userdata_path = '//' + tvh_url + '/userdata/addon_data/service.tvheadend42'
             zipfile_path = dialog.browse(1, "Select your Tvheadend userdata backup zip file?", "files", ".zip")
